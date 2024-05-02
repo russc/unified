@@ -12,9 +12,17 @@ interface PostListProps {
 export default function PostList({ data }: PostListProps) {
   const [postList, setPostList] = useState<any[]>([data]);
   const [cursor, setCursor] = useState<string>(data?.pagination?.next_cursor);
+  const [paginationMsg, setPaginationMsg] = useState<string>(
+    "Loading More Posts..."
+  );
 
   const loadMorePosts = async () => {
     const more = await getPosts(cursor);
+
+    if (more.error_code) {
+      return setPaginationMsg("You are up to date on all posts!");
+    }
+
     setPostList((prev) => [...prev, more]);
     setCursor(more?.pagination?.next_cursor);
   };
@@ -35,8 +43,8 @@ export default function PostList({ data }: PostListProps) {
           />
         );
       })}
-      <div ref={ref}>
-        <p>Loading...</p>
+      <div ref={ref} className="flex justify-center">
+        <p className="italic text-gray-400">{paginationMsg}</p>
       </div>
     </div>
   );

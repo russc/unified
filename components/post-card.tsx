@@ -2,6 +2,7 @@
 import { timeDifference } from "@/lib/helpers";
 import clsx from "clsx";
 import Image from "next/image";
+import ImageWrapper from "./image-wrapper";
 import type { IPost } from "@/types";
 
 interface PostCardProps {
@@ -16,8 +17,8 @@ export default function PostCard({ post }: PostCardProps) {
       )}
       <div className="flex gap-4 items-center">
         {post.author?.profile_pic && (
-          <Image
-            src={post.author.profile_pic.uri}
+          <ImageWrapper
+            srcUrl={post.author.profile_pic.uri}
             alt={`profile image of user ${post.author.display_name}`}
             width={60}
             height={60}
@@ -49,8 +50,8 @@ export default function PostCard({ post }: PostCardProps) {
               case "asset":
                 return (
                   <div key={item.id} className="h-64 relative m-4">
-                    <Image
-                      src={item.uri}
+                    <ImageWrapper
+                      srcUrl={item.uri}
                       alt={`image of user ${post.author.display_name}`}
                       fill
                       style={{ objectFit: "cover" }}
